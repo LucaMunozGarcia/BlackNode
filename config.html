@@ -37,17 +37,17 @@
   justify-content: space-between;
   gap: 16px;
   padding: 10px 0;
-  border-bottom: 1px solid #1c1c1c;
+  border-bottom: 1px solid #1a1a20;
 }
 .opt:last-child { border-bottom: none; }
 .opt label { font-size: .92rem; }
 .opt .hint { display: block; color: var(--muted); font-size: .78rem; margin-top: 2px; }
 .opt input[type="number"], .opt input[type="text"], .opt select {
-  background: #0e0e0e;
+  background: #0b0b0f;
   border: 1px solid var(--border);
   color: var(--text);
-  border-radius: 8px;
-  padding: 8px 10px;
+  border-radius: 10px;
+  padding: 9px 11px;
   font-family: inherit;
   font-size: .88rem;
   width: 170px;
@@ -61,12 +61,12 @@
 .switch input { opacity: 0; width: 0; height: 0; }
 .slider {
   position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #2a2a2a; transition: .2s; border-radius: 26px;
+  background-color: #2a2a30; transition: .2s; border-radius: 26px;
   border: 1px solid var(--border);
 }
 .slider:before {
   position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
-  background-color: #6a6a6a; transition: .2s; border-radius: 50%;
+  background-color: #6a6a72; transition: .2s; border-radius: 50%;
 }
 input:checked + .slider { background-color: #e8e8e8; }
 input:checked + .slider:before { transform: translateX(18px); background-color: #000; }
@@ -76,19 +76,19 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
   top: 88px;
 }
 .json-output {
-  background: #070707;
+  background: #07070a;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px;
   font-family: 'SF Mono', 'JetBrains Mono', Consolas, monospace;
   font-size: .78rem;
-  color: #d4d4d4;
+  color: #d4d4d8;
   white-space: pre;
   overflow: auto;
-  max-height: 65vh;
+  max-height: 62vh;
 }
 .json-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
-.btn-small { padding: 10px 16px; font-size: .88rem; }
+.btn-small { padding: 10px 16px; font-size: .88rem; border-radius: 999px; }
 
 @media (max-width: 960px) {
   .config-layout { grid-template-columns: 1fr; }
@@ -116,7 +116,7 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
   <div class="container">
     <div class="eyebrow">Tools</div>
     <h1>Config Builder</h1>
-    <p class="lead">Configure BlackNode for your server and export a ready-to-use <code>blacknode-config.json</code>.</p>
+    <p class="lead">Configure BlackNode and export a ready-to-use <code>blacknode-config.json</code>.</p>
 
     <div class="config-layout">
       <!-- LEFT: FORM -->
@@ -124,18 +124,18 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
         
         <div class="config-section">
           <h3>Security Modules</h3>
-          <div class="opt"><div><label for="anti_raid">Anti-Raid</label><span class="hint">Basic raid detection</span></div><label class="switch"><input type="checkbox" id="anti_raid"><span class="slider"></span></label></div>
-          <div class="opt"><div><label for="anti_nuke">Anti-Nuke</label><span class="hint">Protect against mass bans / channel deletes</span></div><label class="switch"><input type="checkbox" id="anti_nuke"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="anti_raid">Anti-Raid</label></div><label class="switch"><input type="checkbox" id="anti_raid"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="anti_nuke">Anti-Nuke</label></div><label class="switch"><input type="checkbox" id="anti_nuke"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="smart_automod">Smart AutoMod</label></div><label class="switch"><input type="checkbox" id="smart_automod"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="scam_protection">Scam Protection</label></div><label class="switch"><input type="checkbox" id="scam_protection"><span class="slider"></span></label></div>
-          <div class="opt"><div><label for="verification">Verification</label><span class="hint">Gate new members</span></div><label class="switch"><input type="checkbox" id="verification"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="verification">Verification</label></div><label class="switch"><input type="checkbox" id="verification"><span class="slider"></span></label></div>
         </div>
 
         <div class="config-section">
           <h3>Raid Protection</h3>
           <div class="opt"><div><label for="raid_protection">Raid Protection</label></div><label class="switch"><input type="checkbox" id="raid_protection"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="raid_mass_join">Mass Join Detection</label></div><label class="switch"><input type="checkbox" id="raid_mass_join"><span class="slider"></span></label></div>
-          <div class="opt"><div><label for="raid_join_threshold">Join Threshold</label><span class="hint">Joins to trigger raid mode</span></div><input type="number" id="raid_join_threshold" value="5" min="2" max="50"></div>
+          <div class="opt"><div><label for="raid_join_threshold">Join Threshold</label></div><input type="number" id="raid_join_threshold" value="5" min="2" max="50"></div>
           <div class="opt"><div><label for="raid_new_accounts">Block New Accounts</label></div><label class="switch"><input type="checkbox" id="raid_new_accounts"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="raid_account_age_days">Min. Account Age (days)</label></div><input type="number" id="raid_account_age_days" value="7" min="0" max="90"></div>
           <div class="opt"><div><label for="raid_suspicious_ips">Suspicious IP Check</label></div><label class="switch"><input type="checkbox" id="raid_suspicious_ips"><span class="slider"></span></label></div>
@@ -151,8 +151,8 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
         </div>
 
         <div class="config-section">
-          <h3>Verification System</h3>
-          <div class="opt"><div><label for="verification_system">Enable Verification System</label></div><label class="switch"><input type="checkbox" id="verification_system"><span class="slider"></span></label></div>
+          <h3>Verification</h3>
+          <div class="opt"><div><label for="verification_system">Enable Verification</label></div><label class="switch"><input type="checkbox" id="verification_system"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="verification_captcha">Captcha</label></div><label class="switch"><input type="checkbox" id="verification_captcha"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="verification_account_age">Require Account Age</label></div><label class="switch"><input type="checkbox" id="verification_account_age"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="verification_account_age_days">Account Age Required (days)</label></div><input type="number" id="verification_account_age_days" value="14" min="0" max="180"></div>
@@ -162,9 +162,9 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
         <div class="config-section">
           <h3>AutoMod</h3>
           <div class="opt"><div><label for="automod_enabled">Enable AutoMod</label></div><label class="switch"><input type="checkbox" id="automod_enabled"><span class="slider"></span></label></div>
-          <div class="opt"><div><label for="automod_phishing">Phishing Link Filter</label></div><label class="switch"><input type="checkbox" id="automod_phishing"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="automod_phishing">Phishing Filter</label></div><label class="switch"><input type="checkbox" id="automod_phishing"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="automod_toxicity">Toxicity Filter</label></div><label class="switch"><input type="checkbox" id="automod_toxicity"><span class="slider"></span></label></div>
-          <div class="opt"><div><label for="automod_toxicity_threshold">Toxicity Threshold</label><span class="hint">0–100</span></div><input type="number" id="automod_toxicity_threshold" value="75" min="0" max="100"></div>
+          <div class="opt"><div><label for="automod_toxicity_threshold">Toxicity Threshold</label></div><input type="number" id="automod_toxicity_threshold" value="75" min="0" max="100"></div>
           <div class="opt"><div><label for="automod_spam">Spam Protection</label></div><label class="switch"><input type="checkbox" id="automod_spam"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="automod_spam_messages">Spam Messages</label></div><input type="number" id="automod_spam_messages" value="5" min="2" max="20"></div>
           <div class="opt"><div><label for="automod_spam_seconds">Spam Window (seconds)</label></div><input type="number" id="automod_spam_seconds" value="7" min="2" max="60"></div>
@@ -191,12 +191,12 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
         </div>
 
         <div class="config-section">
-          <h3>Advanced / Premium</h3>
+          <h3>Advanced</h3>
           <div class="opt"><div><label for="dashboard">Dashboard Access</label></div><label class="switch"><input type="checkbox" id="dashboard"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="backup_restore">Backup & Restore</label></div><label class="switch"><input type="checkbox" id="backup_restore"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="appeals">Appeals System</label></div><label class="switch"><input type="checkbox" id="appeals"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="analytics">Analytics</label></div><label class="switch"><input type="checkbox" id="analytics"><span class="slider"></span></label></div>
-          <div class="opt"><div><label for="premium_level">Premium Level</label></div><label class="switch"><input type="checkbox" id="premium_level"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="premium_level">Premium</label></div><label class="switch"><input type="checkbox" id="premium_level"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="ai_detection">AI Detection</label></div><label class="switch"><input type="checkbox" id="ai_detection"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="threat_intelligence">Threat Intelligence</label></div><label class="switch"><input type="checkbox" id="threat_intelligence"><span class="slider"></span></label></div>
           <div class="opt"><div><label for="risk_scoring">Risk Scoring</label></div><label class="switch"><input type="checkbox" id="risk_scoring"><span class="slider"></span></label></div>
@@ -214,10 +214,10 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
         <div class="json-actions">
           <button class="btn btn-small" id="download-btn">Download JSON</button>
           <button class="btn btn-secondary btn-small" id="copy-btn">Copy</button>
+          <button class="btn btn-secondary btn-small" id="import-btn">Import</button>
           <button class="btn btn-secondary btn-small" id="reset-btn">Reset</button>
         </div>
         <p class="code-note" id="copy-note" style="min-height:1.2em"></p>
-        <p class="code-note" style="margin-top:8px">Tip: You can paste a config into the preview to load it – click the JSON area.</p>
       </div>
     </div>
   </div>
@@ -229,7 +229,7 @@ input:checked + .slider:before { transform: translateX(18px); background-color: 
     <div class="footer-links">
       <a href="index.html">Home</a>
       <a href="features.html">Features</a>
-      <a href="#">Support Server</a>
+      <a href="https://discord.com/oauth2/authorize?client_id=1502002154058154126&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">Add to Discord</a>
     </div>
   </div>
 </footer>
@@ -285,29 +285,28 @@ document.getElementById("download-btn").addEventListener("click", () => {
 document.getElementById("copy-btn").addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText(document.getElementById("json-output").textContent);
-    document.getElementById("copy-note").textContent = "Copied to clipboard!";
+    document.getElementById("copy-note").textContent = "Copied to clipboard";
     setTimeout(()=>document.getElementById("copy-note").textContent="", 2000);
   } catch(e) {
-    document.getElementById("copy-note").textContent = "Copy failed.";
+    document.getElementById("copy-note").textContent = "Copy failed";
   }
 });
 
-document.getElementById("reset-btn").addEventListener("click", () => {
-  setConfig(DEFAULTS);
-});
+document.getElementById("reset-btn").addEventListener("click", () => setConfig(DEFAULTS));
 
-document.getElementById("json-output").addEventListener("click", () => {
-  const input = prompt("Paste a blacknode-config.json to load it:");
+document.getElementById("import-btn").addEventListener("click", () => {
+  const input = prompt("Paste your blacknode-config.json:");
   if (!input) return;
   try {
     const parsed = JSON.parse(input);
     setConfig({...DEFAULTS, ...parsed});
+    document.getElementById("copy-note").textContent = "Config imported";
+    setTimeout(()=>document.getElementById("copy-note").textContent="", 2000);
   } catch(e) {
     alert("Invalid JSON");
   }
 });
 
-// init
 setConfig(DEFAULTS);
 </script>
 
