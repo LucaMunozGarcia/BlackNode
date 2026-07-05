@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beta Access – BlackNode</title>
+<meta name="description" content="Generate a BlackNode beta tester access code.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="images/logo.png">
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="index.html" class="brand">
+      <img src="images/logo.png" alt="BlackNode Logo">
+      <span>BlackNode</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="features.html">Features</a>
+      <a href="code.html" class="active">Beta Access</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="container" style="max-width: 720px;">
+    <div class="eyebrow">Beta Program</div>
+    <h1>Beta Access Code Generator</h1>
+    <p class="lead">Generate a one-time access code for the BlackNode private beta. For authorized testers only.</p>
+
+    <div class="card" style="margin-top: 32px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <h2 style="margin:0">Code Generator</h2>
+        <span class="badge">Client-side</span>
+      </div>
+      <p style="color: var(--muted);">Click Generate to create a new random code.</p>
+      
+      <div class="code-box">
+        <div id="code-output">BLACKNODE-XXXX-XXXX-XXXX</div>
+        <div class="btns" style="justify-content: center; margin-top: 10px;">
+          <button class="btn" id="generate-btn">Generate Code</button>
+          <button class="btn btn-secondary" id="copy-btn">Copy</button>
+        </div>
+        <p class="code-note" id="copy-note"></p>
+      </div>
+
+      <p class="code-note" style="margin-top:18px">
+        Note: This is a frontend-only generator for GitHub Pages. Codes are not validated or stored server-side. 
+        Need real, verifiable beta codes? I can build you a backend validation layer.
+      </p>
+    </div>
+
+    <div style="margin-top:24px; color:var(--muted); font-size:.9rem;">
+      <p>Have a code? Redeem it in your Support Server or via the bot with <code style="background:#1f1f1f; border:1px solid var(--border); padding:2px 6px; border-radius:5px;">/beta redeem</code></p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <span>© 2026 BlackNode</span>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="features.html">Features</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const output = document.getElementById('code-output');
+const copyNote = document.getElementById('copy-note');
+
+function generateCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const rand = (n) => Array.from({length: n}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
+  const code = `BLACKNODE-${rand(4)}-${rand(4)}-${rand(4)}`;
+  output.textContent = code;
+  copyNote.textContent = '';
+}
+
+document.getElementById('generate-btn').addEventListener('click', generateCode);
+
+document.getElementById('copy-btn').addEventListener('click', async () => {
+  const code = output.textContent;
+  if (code.includes('XXXX')) {
+    copyNote.textContent = 'Please generate a code first.';
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(code);
+    copyNote.textContent = 'Copied to clipboard!';
+  } catch(e) {
+    copyNote.textContent = 'Copy failed. Please select the code manually.';
+  }
+});
+
+generateCode();
+</script>
+
+</body>
+</html>
