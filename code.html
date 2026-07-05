@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Beta Access – BlackNode</title>
+<title>Access Code – BlackNode</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="Generate a BlackNode beta tester access code.">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="images/logo.png">
 </head>
@@ -25,33 +24,19 @@
 
 <main>
   <div class="container" style="max-width: 720px;">
-    <div class="eyebrow">Beta Program – Private</div>
-    <h1>Beta Access Code Generator</h1>
-    <p class="lead">Generate a one-time access code for the BlackNode private beta. For authorized testers only.</p>
+    <div class="eyebrow">BlackNode</div>
+    <h1>Access Code Generator</h1>
+    <p class="lead">Generate your BlackNode access code.</p>
 
     <div class="card" style="margin-top: 32px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <h2 style="margin:0">Code Generator</h2>
-        <span class="badge">Client-side</span>
-      </div>
-      <p style="color: var(--muted);">Click Generate to create a new random code.</p>
-      
       <div class="code-box">
         <div id="code-output">BLACKNODE-XXXX-XXXX-XXXX</div>
-        <div class="btns" style="justify-content: center; margin-top: 10px;">
-          <button class="btn" id="generate-btn">Generate Code</button>
+        <div class="btns" style="justify-content: center; margin-top: 14px;">
+          <button class="btn" id="generate-btn">Generate</button>
           <button class="btn btn-secondary" id="copy-btn">Copy</button>
         </div>
         <p class="code-note" id="copy-note"></p>
       </div>
-
-      <p class="code-note" style="margin-top:18px">
-        Note: This is a frontend-only generator for GitHub Pages. Codes are not validated or stored server-side. 
-      </p>
-    </div>
-
-    <div style="margin-top:24px; color:var(--muted); font-size:.9rem;">
-      <p>Have a code? Redeem it in your Support Server or via the bot with <code style="background:#1f1f1f; border:1px solid var(--border); padding:2px 6px; border-radius:5px;">/beta redeem</code></p>
     </div>
   </div>
 </main>
@@ -87,14 +72,14 @@ document.getElementById('copy-btn').addEventListener('click', async () => {
   }
   try {
     await navigator.clipboard.writeText(code);
-    copyNote.textContent = 'Copied to clipboard!';
+    copyNote.textContent = 'Copied to clipboard';
   } catch(e) {
-    copyNote.textContent = 'Copy failed. Please select the code manually.';
+    copyNote.textContent = 'Copy failed';
   }
 });
 
 generateCode();
 </script>
 
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a16786e72c13923a',t:'MTc4MzI2NjY0Mw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
