@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Config Builder – BlackNode</title>
+<meta name="description" content="Generate a blacknode-config.json for your Discord server.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="images/logo.png">
+<style>
+.config-layout {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: 32px;
+}
+.config-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 24px;
+}
+.config-section { margin-bottom: 28px; }
+.config-section h3 {
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #1c1c1c;
+}
+.opt:last-child { border-bottom: none; }
+.opt label { font-size: .92rem; }
+.opt .hint { display: block; color: var(--muted); font-size: .78rem; margin-top: 2px; }
+.opt input[type="number"], .opt input[type="text"], .opt select {
+  background: #0e0e0e;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: .88rem;
+  width: 170px;
+}
+.opt input[type="text"] { width: 100%; max-width: 260px; }
+.opt-full { flex-direction: column; align-items: flex-start; }
+.opt-full input[type="text"] { max-width: 100%; width: 100%; }
+
+/* Toggle switch */
+.switch { position: relative; display: inline-block; width: 44px; height: 26px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #2a2a2a; transition: .2s; border-radius: 26px;
+  border: 1px solid var(--border);
+}
+.slider:before {
+  position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+  background-color: #6a6a6a; transition: .2s; border-radius: 50%;
+}
+input:checked + .slider { background-color: #e8e8e8; }
+input:checked + .slider:before { transform: translateX(18px); background-color: #000; }
+
+.json-panel {
+  position: sticky;
+  top: 88px;
+}
+.json-output {
+  background: #070707;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  font-family: 'SF Mono', 'JetBrains Mono', Consolas, monospace;
+  font-size: .78rem;
+  color: #d4d4d4;
+  white-space: pre;
+  overflow: auto;
+  max-height: 65vh;
+}
+.json-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+.btn-small { padding: 10px 16px; font-size: .88rem; }
+
+@media (max-width: 960px) {
+  .config-layout { grid-template-columns: 1fr; }
+  .json-panel { position: relative; top: auto; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="index.html" class="brand">
+      <img src="images/logo.png" alt="BlackNode Logo">
+      <span>BlackNode</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="features.html">Features</a>
+      <a href="config.html" class="active">Config Builder</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="container">
+    <div class="eyebrow">Tools</div>
+    <h1>Config Builder</h1>
+    <p class="lead">Configure BlackNode for your server and export a ready-to-use <code>blacknode-config.json</code>.</p>
+
+    <div class="config-layout">
+      <!-- LEFT: FORM -->
+      <div class="config-panel" id="form-panel">
+        
+        <div class="config-section">
+          <h3>Security Modules</h3>
+          <div class="opt"><div><label for="anti_raid">Anti-Raid</label><span class="hint">Basic raid detection</span></div><label class="switch"><input type="checkbox" id="anti_raid"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="anti_nuke">Anti-Nuke</label><span class="hint">Protect against mass bans / channel deletes</span></div><label class="switch"><input type="checkbox" id="anti_nuke"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="smart_automod">Smart AutoMod</label></div><label class="switch"><input type="checkbox" id="smart_automod"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="scam_protection">Scam Protection</label></div><label class="switch"><input type="checkbox" id="scam_protection"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="verification">Verification</label><span class="hint">Gate new members</span></div><label class="switch"><input type="checkbox" id="verification"><span class="slider"></span></label></div>
+        </div>
+
+        <div class="config-section">
+          <h3>Raid Protection</h3>
+          <div class="opt"><div><label for="raid_protection">Raid Protection</label></div><label class="switch"><input type="checkbox" id="raid_protection"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="raid_mass_join">Mass Join Detection</label></div><label class="switch"><input type="checkbox" id="raid_mass_join"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="raid_join_threshold">Join Threshold</label><span class="hint">Joins to trigger raid mode</span></div><input type="number" id="raid_join_threshold" value="5" min="2" max="50"></div>
+          <div class="opt"><div><label for="raid_new_accounts">Block New Accounts</label></div><label class="switch"><input type="checkbox" id="raid_new_accounts"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="raid_account_age_days">Min. Account Age (days)</label></div><input type="number" id="raid_account_age_days" value="7" min="0" max="90"></div>
+          <div class="opt"><div><label for="raid_suspicious_ips">Suspicious IP Check</label></div><label class="switch"><input type="checkbox" id="raid_suspicious_ips"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="raid_vpn_action">VPN Action</label></div>
+            <select id="raid_vpn_action">
+              <option value="warn">warn</option>
+              <option value="kick">kick</option>
+              <option value="ban">ban</option>
+              <option value="timeout">timeout</option>
+              <option value="none">none</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="config-section">
+          <h3>Verification System</h3>
+          <div class="opt"><div><label for="verification_system">Enable Verification System</label></div><label class="switch"><input type="checkbox" id="verification_system"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="verification_captcha">Captcha</label></div><label class="switch"><input type="checkbox" id="verification_captcha"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="verification_account_age">Require Account Age</label></div><label class="switch"><input type="checkbox" id="verification_account_age"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="verification_account_age_days">Account Age Required (days)</label></div><input type="number" id="verification_account_age_days" value="14" min="0" max="180"></div>
+          <div class="opt"><div><label for="verification_phone">Phone Verification</label></div><label class="switch"><input type="checkbox" id="verification_phone"><span class="slider"></span></label></div>
+        </div>
+
+        <div class="config-section">
+          <h3>AutoMod</h3>
+          <div class="opt"><div><label for="automod_enabled">Enable AutoMod</label></div><label class="switch"><input type="checkbox" id="automod_enabled"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="automod_phishing">Phishing Link Filter</label></div><label class="switch"><input type="checkbox" id="automod_phishing"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="automod_toxicity">Toxicity Filter</label></div><label class="switch"><input type="checkbox" id="automod_toxicity"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="automod_toxicity_threshold">Toxicity Threshold</label><span class="hint">0–100</span></div><input type="number" id="automod_toxicity_threshold" value="75" min="0" max="100"></div>
+          <div class="opt"><div><label for="automod_spam">Spam Protection</label></div><label class="switch"><input type="checkbox" id="automod_spam"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="automod_spam_messages">Spam Messages</label></div><input type="number" id="automod_spam_messages" value="5" min="2" max="20"></div>
+          <div class="opt"><div><label for="automod_spam_seconds">Spam Window (seconds)</label></div><input type="number" id="automod_spam_seconds" value="7" min="2" max="60"></div>
+          <div class="opt"><div><label for="automod_duplicate_limit">Duplicate Limit</label></div><input type="number" id="automod_duplicate_limit" value="3" min="1" max="10"></div>
+          <div class="opt"><div><label for="automod_spam_action">Spam Action</label></div>
+            <select id="automod_spam_action">
+              <option value="timeout">timeout</option>
+              <option value="warn">warn</option>
+              <option value="kick">kick</option>
+              <option value="ban">ban</option>
+              <option value="delete">delete</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="config-section">
+          <h3>Logging</h3>
+          <div class="opt"><div><label for="logging_enabled">Enable Logging</label></div><label class="switch"><input type="checkbox" id="logging_enabled"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="detailed_logs">Detailed Logs</label></div><label class="switch"><input type="checkbox" id="detailed_logs"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="log_moderation">Log Moderation</label></div><label class="switch"><input type="checkbox" id="log_moderation"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="log_joins">Log Joins / Leaves</label></div><label class="switch"><input type="checkbox" id="log_joins"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="log_webhook">Use Log Webhook</label></div><label class="switch"><input type="checkbox" id="log_webhook"><span class="slider"></span></label></div>
+          <div class="opt opt-full"><label for="logging_webhook">Logging Webhook URL</label><input type="text" id="logging_webhook" placeholder="https://discord.com/api/webhooks/..."></div>
+        </div>
+
+        <div class="config-section">
+          <h3>Advanced / Premium</h3>
+          <div class="opt"><div><label for="dashboard">Dashboard Access</label></div><label class="switch"><input type="checkbox" id="dashboard"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="backup_restore">Backup & Restore</label></div><label class="switch"><input type="checkbox" id="backup_restore"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="appeals">Appeals System</label></div><label class="switch"><input type="checkbox" id="appeals"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="analytics">Analytics</label></div><label class="switch"><input type="checkbox" id="analytics"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="premium_level">Premium Level</label></div><label class="switch"><input type="checkbox" id="premium_level"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="ai_detection">AI Detection</label></div><label class="switch"><input type="checkbox" id="ai_detection"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="threat_intelligence">Threat Intelligence</label></div><label class="switch"><input type="checkbox" id="threat_intelligence"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="risk_scoring">Risk Scoring</label></div><label class="switch"><input type="checkbox" id="risk_scoring"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="cross_server_protection">Cross-Server Protection</label></div><label class="switch"><input type="checkbox" id="cross_server_protection"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="real_time_alerts">Real-time Alerts</label></div><label class="switch"><input type="checkbox" id="real_time_alerts"><span class="slider"></span></label></div>
+          <div class="opt"><div><label for="behavioral_analysis">Behavioral Analysis</label></div><label class="switch"><input type="checkbox" id="behavioral_analysis"><span class="slider"></span></label></div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: JSON PREVIEW -->
+      <div class="config-panel json-panel">
+        <h2 style="margin-bottom:10px">blacknode-config.json</h2>
+        <div id="json-output" class="json-output">{}</div>
+        <div class="json-actions">
+          <button class="btn btn-small" id="download-btn">Download JSON</button>
+          <button class="btn btn-secondary btn-small" id="copy-btn">Copy</button>
+          <button class="btn btn-secondary btn-small" id="reset-btn">Reset</button>
+        </div>
+        <p class="code-note" id="copy-note" style="min-height:1.2em"></p>
+        <p class="code-note" style="margin-top:8px">Tip: You can paste a config into the preview to load it – click the JSON area.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <span>© 2026 BlackNode</span>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="features.html">Features</a>
+      <a href="#">Support Server</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const FIELDS = [
+  "anti_raid","anti_nuke","smart_automod","scam_protection","verification","detailed_logs","dashboard","backup_restore","appeals","analytics","premium_level","ai_detection","threat_intelligence","risk_scoring","cross_server_protection","real_time_alerts","behavioral_analysis","raid_protection","raid_mass_join","raid_join_threshold","raid_new_accounts","raid_account_age_days","raid_suspicious_ips","raid_vpn_action","verification_system","verification_captcha","verification_account_age","verification_account_age_days","verification_phone","automod_enabled","automod_phishing","automod_toxicity","automod_toxicity_threshold","automod_spam","automod_spam_messages","automod_spam_seconds","automod_duplicate_limit","automod_spam_action","logging_enabled","log_moderation","log_joins","log_webhook","logging_webhook"
+];
+
+const DEFAULTS = {
+  anti_raid:false, anti_nuke:false, smart_automod:false, scam_protection:false, verification:false, detailed_logs:false, dashboard:false, backup_restore:false, appeals:false, analytics:false, premium_level:false, ai_detection:false, threat_intelligence:false, risk_scoring:false, cross_server_protection:false, real_time_alerts:false, behavioral_analysis:false, raid_protection:false, raid_mass_join:false, raid_join_threshold:5, raid_new_accounts:false, raid_account_age_days:7, raid_suspicious_ips:false, raid_vpn_action:"warn", verification_system:false, verification_captcha:false, verification_account_age:false, verification_account_age_days:14, verification_phone:false, automod_enabled:false, automod_phishing:false, automod_toxicity:false, automod_toxicity_threshold:75, automod_spam:false, automod_spam_messages:5, automod_spam_seconds:7, automod_duplicate_limit:3, automod_spam_action:"timeout", logging_enabled:false, log_moderation:false, log_joins:false, log_webhook:false, logging_webhook:""
+};
+
+function getConfig() {
+  const cfg = {};
+  for (const key of FIELDS) {
+    const el = document.getElementById(key);
+    if (!el) continue;
+    if (el.type === "checkbox") cfg[key] = el.checked;
+    else if (el.type === "number") cfg[key] = parseInt(el.value || "0", 10);
+    else cfg[key] = el.value;
+  }
+  return cfg;
+}
+
+function setConfig(cfg) {
+  for (const key of FIELDS) {
+    const el = document.getElementById(key);
+    if (!el || cfg[key] === undefined) continue;
+    if (el.type === "checkbox") el.checked = !!cfg[key];
+    else el.value = cfg[key];
+  }
+  render();
+}
+
+function render() {
+  const cfg = getConfig();
+  document.getElementById("json-output").textContent = JSON.stringify(cfg, null, 2);
+}
+
+document.getElementById("form-panel").addEventListener("input", render);
+document.getElementById("form-panel").addEventListener("change", render);
+
+document.getElementById("download-btn").addEventListener("click", () => {
+  const blob = new Blob([document.getElementById("json-output").textContent], {type: "application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "blacknode-config.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+document.getElementById("copy-btn").addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(document.getElementById("json-output").textContent);
+    document.getElementById("copy-note").textContent = "Copied to clipboard!";
+    setTimeout(()=>document.getElementById("copy-note").textContent="", 2000);
+  } catch(e) {
+    document.getElementById("copy-note").textContent = "Copy failed.";
+  }
+});
+
+document.getElementById("reset-btn").addEventListener("click", () => {
+  setConfig(DEFAULTS);
+});
+
+document.getElementById("json-output").addEventListener("click", () => {
+  const input = prompt("Paste a blacknode-config.json to load it:");
+  if (!input) return;
+  try {
+    const parsed = JSON.parse(input);
+    setConfig({...DEFAULTS, ...parsed});
+  } catch(e) {
+    alert("Invalid JSON");
+  }
+});
+
+// init
+setConfig(DEFAULTS);
+</script>
+
+</body>
+</html>
